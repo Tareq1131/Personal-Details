@@ -9,11 +9,11 @@ import Step3 from "../components/Step3";
 import { useNavigate } from "react-router-dom";
 
 // IMGBB API key
-const imgbbApiKey = "f9b69da6cdf4002afb9e4192014bcb70"; // replace with your actual key
+const imgbbApiKey = "f9b69da6cdf4002afb9e4192014bcb70"; 
 
 const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  //   const [submittedData, setSubmittedData] = useState(null);
+  
   const navigate = useNavigate();
 
   // Validation schema
@@ -21,7 +21,7 @@ const MultiStepForm = () => {
     fullName: yup.string().required("Full Name is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
 
-    // phone: yup.string(),
+    
     phone: yup.string().required("Phone number is required").matches(/^\+880\d{10}$/,
         "Phone number must start with +880 and have 10 digits"
       ),
@@ -60,7 +60,7 @@ const MultiStepForm = () => {
 
     state: yup.string().required("State/Province is required"),
 
-    // postalCode: yup.string().required("Post Code is required"),
+   
     postalCode: yup.string().matches(/^\d{4,6}$/, "Postal Code must be 4-6 digits").required("Postal Code is required"),
   });
 
@@ -81,7 +81,6 @@ const MultiStepForm = () => {
   };
 
 
-
 const onSubmit = async (data) => {
     try {
       // Upload files to imgbb
@@ -95,11 +94,8 @@ const onSubmit = async (data) => {
         nidCopy: nidCopyUrl,
       };
   
-      // Save data to localStorage (for display or debugging)
+      // Save data to localStorage
       localStorage.setItem("formData", JSON.stringify(formData));
-  
-      // Debug: Log submitted form data
-      console.log("Submitted Form Data: ", formData);
   
       // Reset the form fields
       methods.reset();
@@ -107,8 +103,6 @@ const onSubmit = async (data) => {
       // Navigate to the display page
       navigate("/display");
   
-      // Optionally clear data from localStorage after redirection
-    //   localStorage.removeItem("formData");
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -142,13 +136,19 @@ const onSubmit = async (data) => {
     }
   };
 
-  const handlePrevious = () => {
+
+const handlePrevious = () => {
     setCurrentStep((prev) => prev - 1);
+  
+    // Get the data stored in localStorage
     const storedData = localStorage.getItem("formData");
+  
     if (storedData) {
+      // Reset the form with the stored data
       methods.reset(JSON.parse(storedData));
     }
   };
+  
 
   return (
     <div className="max-w-4xl p-8 mx-auto mt-8 space-y-8 bg-white rounded-lg shadow-lg">
@@ -186,7 +186,7 @@ const onSubmit = async (data) => {
         </form>
       </FormProvider>
 
-      {/* {submittedData && <DisplayData initialData={submittedData} />} */}
+ 
     </div>
   );
 };

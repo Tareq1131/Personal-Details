@@ -3,16 +3,27 @@ import React, { useState, useEffect } from "react";
 
 const DisplayData = () => {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const storedData = localStorage.getItem("formData");
     if (storedData) {
       setData(JSON.parse(storedData));
     }
+    setLoading(false); // Set loading to false once data is fetched
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+        <div className="w-16 h-16 border-4 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   if (!data) {
-    return <div>Loading...</div>;
+    return <div>No data available.</div>;
   }
 
   return (
@@ -80,4 +91,3 @@ const DisplayData = () => {
 };
 
 export default DisplayData;
-
