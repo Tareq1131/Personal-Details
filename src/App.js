@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import MultiStepForm from "./pages/MultiStepForm";
+import DisplayData from "./pages/DisplayData";
+
+
+function HomeLink() {
+  const navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    // Remove data from localStorage when navigating to the home page
+    localStorage.removeItem("formData");
+    navigate("/"); // Navigate to the Home page
+  };
+
+  return (
+    <nav className="p-4 bg-blue-500">
+      <Link to="/" onClick={handleHomeClick} className="text-white">Home</Link>
+    </nav>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        {/* Add the HomeLink component here */}
+        <HomeLink />
+        <Routes>
+          <Route path="/" element={<MultiStepForm />} />
+          <Route path="/display" element={<DisplayData />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
